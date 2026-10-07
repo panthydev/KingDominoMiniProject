@@ -1,6 +1,5 @@
 ﻿from tkinter import Image
-
-from src.BiomeType import BiomeType
+from src.Biome import BiomeType
 
 
 class Tile:
@@ -27,8 +26,6 @@ class Tile:
 
     def SetImage(self, image : Image):
         self.image = image
-
-
 
     def PrintPosition(self):
         print(self.x, self.y)
