@@ -14,21 +14,9 @@ from src.Tile import Tile
 
 def CalcAverageRGB(Tile: Tile) -> int:
     image = cv2.cvtColor(Tile.image, cv2.COLOR_BGR2RGB)
-    height, width = image.shape[:2]
-    averageRGB = 0
-    R: int = 0
-    G: int = 0
-    B: int = 0
-    RGBSum = 0
-    for x in range(width):
-        for y in range(height):
-            R += int(image[y, x][0])
-            G += int(image[y, x][1])
-            B += int(image[y, x][2])
 
-    addedRGB = R + G + B
-    averageRGB = addedRGB // width * height
-    return averageRGB
+    averageRGB = np.mean(image, axis=(0,1))
+    return int(np.sum(averageRGB))
 
 
 def setBiome(tile: Tile, a: int):
@@ -36,12 +24,12 @@ def setBiome(tile: Tile, a: int):
 
 
 def showTileInfo(tile: Tile):
-    cv2.imshow(str(tile), tile.image)
+   # cv2.imshow(str(tile), tile.image)
 
     print("""Choose BiomeType:
                WheatFields = 1
                Woods = 2
-               waters = 3
+               water = 3
                pasture = 4
                bog = 5
                Mines = 6
@@ -77,10 +65,16 @@ for file in folder_path.glob("*.jpg"):
 
     TileGrids.append(tile_grid)
 
+count = 0
 for tile_grid in TileGrids:
     for tile in tile_grid:
+        cv2.destroyAllWindows()
+        count += 1
+        print(f"Processing tile {count}/1850")
         showTileInfo(tile)
-        key = cv2.waitKey(0)
+        #key = cv2.waitKey(0)
+        key = ord('2')
+
         if key == ord('0'):
             print("\n skipping this one")
             continue
@@ -96,14 +90,22 @@ for tile_grid in TileGrids:
 Biomes: dict[BiomeType, list[Tile]] = {}
 BiomesAverageRGB: dict[BiomeType, int] = {}
 
+for biomeType in BiomeType:
+    Biomes[biomeType] = []
+
+
 for tile_grid in TileGrids:
     for tile in tile_grid:
         Biomes[tile.BiomeType].append(tile)
 
 for BiomeType in Biomes:
+    if len(Biomes[BiomeType]) == 0:
+        continue
+
     SumRGB = 0
     for tile in Biomes[BiomeType]:
         SumRGB += tile.AverageRGB
+
 
     BiomesAverageRGB[BiomeType] = SumRGB // len(Biomes[BiomeType])
     print(f"Biome RGB averages:"
