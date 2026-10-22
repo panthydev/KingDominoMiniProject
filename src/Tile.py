@@ -11,7 +11,7 @@ class Tile:
         self.y : int = y
         self.image : np.ndarray | None = None
         self.AverageRGB : tuple = (0, 0, 0)
-        self.BiomeType : BiomeType
+        self.BiomeType = BiomeType.NoType
         self.CrownAmount : int = 0
 
 

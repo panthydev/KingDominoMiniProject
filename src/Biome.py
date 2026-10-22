@@ -13,8 +13,8 @@ class BiomeType(enum.Enum):
 
 
 class Biome:
-    def __init__(self, BiomeType : BiomeType):
-        self.BiomeType : BiomeType = None
+    def __init__(self, biomeType : BiomeType):
+        self.BiomeType : BiomeType = biomeType
         self.AverageRGB : int = 0
 
     def set_BiomeType(self, BiomeType):
