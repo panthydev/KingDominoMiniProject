@@ -36,7 +36,7 @@ def showTileInfo(tile: Tile):
                Skip = 0""")
 
 
-folder_path = Path("../../TrainingImages")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
+folder_path = Path("../../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
 
 Images = []
 TileGrids = []
@@ -112,11 +112,14 @@ for BiomeType in Biomes:
     AverageRGB = []
 
     for total in SumRGB:
-        average = total // len(Biomes[BiomeType])
+        average = int(total // len(Biomes[BiomeType]))
         AverageRGB.append(average)
     BiomesAverageRGB[BiomeType] = tuple(AverageRGB)
 
-    print(f"Biome RGB averages:"
-          f"{BiomeType}: {BiomesAverageRGB[BiomeType]}")
+    stringToPrint = f"Biome RGB averages:" + f"{BiomeType}: {BiomesAverageRGB[BiomeType]}"
+
+    print(stringToPrint)
+    with open("BiomeRGBResults.txt", "a") as file:
+        file.write(stringToPrint + "\n")
 
 
