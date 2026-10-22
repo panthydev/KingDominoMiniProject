@@ -24,7 +24,7 @@ def setBiome(tile: Tile, a: int):
 
 
 def showTileInfo(tile: Tile):
-   # cv2.imshow(str(tile), tile.image)
+    cv2.imshow(str(tile), tile.image)
 
     print("""Choose BiomeType:
                WheatFields = 1
@@ -72,8 +72,8 @@ for tile_grid in TileGrids:
         count += 1
         print(f"Processing tile {count}/1850")
         showTileInfo(tile)
-        #key = cv2.waitKey(0)
-        key = ord('2')
+        key = cv2.waitKey(0)
+
 
         if key == ord('0'):
             print("\n skipping this one")
@@ -81,7 +81,7 @@ for tile_grid in TileGrids:
 
         if ord('1') <= key <= ord('6'):  #only if key is 1 -> 6
             setBiome(tile, key - ord('0'))
-            tile.SetAverageRGB(CalcAverageRGB(tile))
+            tile.SetAverageRGB(CalcAverageRGB(tile)) #set the tiles avgRGB
             tile.PrintBiomeType()
             tile.PrintAverageRGB()
             #time.sleep(4)
@@ -96,14 +96,14 @@ for biomeType in BiomeType:
 
 for tile_grid in TileGrids:
     for tile in tile_grid:
-        Biomes[tile.BiomeType].append(tile)
+        Biomes[tile.BiomeType].append(tile) # sort all the tiles into their respective biomes
 
 for BiomeType in Biomes:
     if len(Biomes[BiomeType]) == 0:
         continue
 
     SumRGB = 0
-    for tile in Biomes[BiomeType]:
+    for tile in Biomes[BiomeType]: # goes through each tile per biome
         SumRGB += tile.AverageRGB
 
 
