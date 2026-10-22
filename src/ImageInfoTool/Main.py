@@ -12,11 +12,11 @@ from src.TileGrid import TileGrid
 from src.Tile import Tile
 
 
-def CalcAverageRGB(Tile: Tile) -> int:
+def CalcAverageRGB(Tile: Tile) -> tuple[int, int, int]:
     image = cv2.cvtColor(Tile.image, cv2.COLOR_BGR2RGB)
 
     averageRGB = np.mean(image, axis=(0,1))
-    return int(np.sum(averageRGB))
+    return tuple((averageRGB).astype(int))
 
 
 def setBiome(tile: Tile, a: int):
@@ -88,7 +88,7 @@ for tile_grid in TileGrids:
             os.system("cls")
 
 Biomes: dict[BiomeType, list[Tile]] = {}
-BiomesAverageRGB: dict[BiomeType, int] = {}
+BiomesAverageRGB: dict[BiomeType, tuple[int, int, int]] = {}
 
 for biomeType in BiomeType:
     Biomes[biomeType] = []
@@ -102,12 +102,20 @@ for BiomeType in Biomes:
     if len(Biomes[BiomeType]) == 0:
         continue
 
-    SumRGB = 0
+    SumRGB = (0,0,0)
     for tile in Biomes[BiomeType]: # goes through each tile per biome
-        SumRGB += tile.AverageRGB
+        SumRGB = tuple(
+            a + b
+            for a, b in zip(SumRGB, tile.AverageRGB)
+        )
 
+    AverageRGB = []
 
-    BiomesAverageRGB[BiomeType] = SumRGB // len(Biomes[BiomeType])
+    for total in SumRGB:
+        average = total // len(Biomes[BiomeType])
+        AverageRGB.append(average)
+    BiomesAverageRGB[BiomeType] = tuple(AverageRGB)
+
     print(f"Biome RGB averages:"
           f"{BiomeType}: {BiomesAverageRGB[BiomeType]}")
 

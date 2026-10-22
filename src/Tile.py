@@ -10,7 +10,7 @@ class Tile:
         self.x : int = x
         self.y : int = y
         self.image : np.ndarray | None = None
-        self.AverageRGB = 0
+        self.AverageRGB : tuple = (0, 0, 0)
         self.BiomeType : BiomeType
         self.CrownAmount : int = 0
 
@@ -24,7 +24,7 @@ class Tile:
         else:
             self.CrownAmount += amount
 
-    def SetAverageRGB(self, RGB : tuple):
+    def SetAverageRGB(self, RGB : tuple[int,int,int]):
         self.AverageRGB = RGB
 
     def SetImage(self, image : np.ndarray):

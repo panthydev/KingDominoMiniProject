@@ -20,8 +20,10 @@ class Biome:
     def set_BiomeType(self, BiomeType):
         self.BiomeType = BiomeType
 
-    def set_AverageRGB(self, AverageRGB : int):
-        if AverageRGB < 0 or AverageRGB > 255:
-            return False
+    def set_AverageRGB(self, AverageRGB : tuple[int, int, int]):
+
+        for value in AverageRGB:
+            if value < 0 or value > 255:
+                return False
         else:
             self.AverageRGB = AverageRGB

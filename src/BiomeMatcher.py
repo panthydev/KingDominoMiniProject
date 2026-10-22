@@ -34,16 +34,25 @@ class BiomeMatcher:
         biome_type = BiomeMatcher.matchAverageRGB(self, tile.AverageRGB)
         tile.SetBiomeType(biome_type)
 
-        if biome_type is biome_type.NoType:
+        if biome_type is BiomeType.NoType:
             return False
         else:
             return True
 
 
-    def matchAverageRGB(self, AverageRGB: int) -> BiomeType:
-        for biome in BiomeMatcher.Biomes:
-            if biome.BiomeType == BiomeType.NoType: return biome.NoType
+    def matchAverageRGB(self, AverageRGB: tuple [int, int, int]) -> BiomeType:
+        results = {}
 
-            if biome.AverageRGB - BiomeMatcher.Tolerance <= AverageRGB <= biome.AverageRGB + BiomeMatcher.Tolerance:
-                return biome.BiomeType
-        return BiomeType.NoType
+        for biome in BiomeMatcher.Biomes.values():
+            if biome.BiomeType == BiomeType.NoType: return BiomeType.NoType
+
+            distance = 0
+
+            for a, b in zip(AverageRGB, biome.AverageRGB):  distance += (a - b)**2
+
+            distance = distance**0.5
+            results[distance] = biome
+
+        ShortestDistanceKey = min(results)
+
+        return results[ShortestDistanceKey].BiomeType
