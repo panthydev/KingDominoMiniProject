@@ -14,6 +14,11 @@ class TileGrid:
                 row.append(Tile(x, y)) #create the individual tile obj and add it to row
             self.grid.append(row) # put the row in the 2d list
 
+    def __iter__(self):
+        for row in self.grid:
+            for tile in row:
+                yield tile
+
     def set_tile_by_Position(self, tile: Tile, x: int, y: int):
-        self.tiles[x][y] = tile
+        self.grid[x][y] = tile
 

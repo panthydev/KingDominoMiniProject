@@ -1,4 +1,7 @@
 ﻿from tkinter import Image
+
+import numpy as np
+
 from src.Biome import BiomeType
 
 
@@ -6,9 +9,9 @@ class Tile:
     def __init__(self, x, y):
         self.x : int = x
         self.y : int = y
-        self.image : Image = None
-        self.AverageRGB = 0
-        self.BiomeType : BiomeType = None
+        self.image : np.ndarray | None = None
+        self.AverageRGB : tuple = (0, 0, 0)
+        self.BiomeType : BiomeType
         self.CrownAmount : int = 0
 
 
@@ -21,10 +24,10 @@ class Tile:
         else:
             self.CrownAmount += amount
 
-    def SetAverageRGB(self, RGB : tuple):
+    def SetAverageRGB(self, RGB : tuple[int,int,int]):
         self.AverageRGB = RGB
 
-    def SetImage(self, image : Image):
+    def SetImage(self, image : np.ndarray):
         self.image = image
 
     def PrintPosition(self):
