@@ -36,7 +36,7 @@ def showTileInfo(tile: Tile):
                Skip = 0""")
 
 
-folder_path = Path("../../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
+folder_path = Path("../../TrainingImages")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
 
 Images = []
 TileGrids = []
