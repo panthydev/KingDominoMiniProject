@@ -86,6 +86,8 @@ for tile_grid in TileGrids:
             tile.PrintAverageRGB()
             #time.sleep(4)
             os.system("cls")
+        else:
+            continue
 
 Biomes: dict[BiomeType, list[Tile]] = {}
 BiomesAverageRGB: dict[BiomeType, tuple[int, int, int]] = {}
