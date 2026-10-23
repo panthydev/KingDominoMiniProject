@@ -1,0 +1,2 @@
+Biome RGB averages:WheatFields: (78, 104, 50)
+Biome RGB averages:NoType: (0, 0, 0)
