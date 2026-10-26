@@ -7,12 +7,11 @@ from cv2 import *
 from pathlib import Path
 import numpy as np
 
+from src import Utils
 from src.Biome import BiomeType
+from src.BiomeMatcher import BiomeMatcher
 from src.TileGrid import TileGrid
 from src.Tile import Tile
-
-
-
 
 Images = []
 TileGrids = []
@@ -40,11 +39,23 @@ def CreateTileGrids(path):
                 tile_grid.set_tile_by_Position(tile, x, y)
 
         TileGrids.append(tile_grid)
+def CalcAverageRGBForAllBoards(TileGrids):
+    for tile_grid in TileGrids:
+        Utils.CalcAverageRGBForBoard(tile_grid)
+def CalculateBiomeForAllBoards(TileGrids):
+    biomeMatcher = BiomeMatcher()
+    for tile_grid in TileGrids:
+        biomeMatcher.MatchAllTiles(tile_grid)
 
 folder_path = Path("../TrainingImages")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
+#currently this path leads to all the images, we should probably only do one at a time.
 
-
-
-print(list(folder_path.glob("*.jpg")))
 CreateTileGrids(folder_path)
-print(TileGrids)
+CalcAverageRGBForAllBoards(TileGrids)
+CalculateBiomeForAllBoards(TileGrids)
+
+#figure out the biomes on each board / TileGrid
+
+
+
+
