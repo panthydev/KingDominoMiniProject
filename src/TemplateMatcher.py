@@ -5,25 +5,26 @@ import numpy as np
 
 from src.Tile import Tile
 
-templateOriginal = cv2.imread('Templates/Crown3Final.png', cv2.IMREAD_UNCHANGED) #temp not working
-print(templateOriginal.shape)
-print("Template dimensions:", templateOriginal.shape)
+templateSource = cv2.imread('Templates/Crown3Final.png', cv2.IMREAD_UNCHANGED) #temp not working
+print(templateSource.shape)
+print("Template dimensions:", templateSource.shape)
 threshold = 0.95
 #0.91 without mask
-templateGray = cv2.cvtColor(templateOriginal[:, :, :3], cv2.COLOR_BGR2GRAY)
-maskOriginal = templateOriginal[:, :, 3]
+template = templateSource[:, :, :3]
+maskOriginal = templateSource[:, :, 3]
 
 def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
     height, width = template.shape[:2]
 
-    tileImage = cv2.cvtColor(Tile.image, cv2.COLOR_BGR2GRAY) # dont know if bgr2 is what its on by default, check it with breakpoints
+    tileImage = Tile.image.copy()
+    #tileImage = cv2.cvtColor(Tile.image, cv2.COLOR_BGR2GRAY) # dont know if bgr2 is what its on by default, check it with breakpoints
 
 
     if Image is None:
         tileImage2 = tileImage.copy()
     else:
         tileImage2 = Image.copy()
-    result = cv2.matchTemplate(tileImage2, template, cv2.TM_CCORR_NORMED, mask=mask)
+    result = cv2.matchTemplate(tileImage2, template, cv2.TM_CCOEFF_NORMED, mask=mask)
     os.system("cls")
 
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
