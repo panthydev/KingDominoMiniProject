@@ -6,7 +6,7 @@ from src.TileGrid import TileGrid
 class BiomeMatcher:
 
     Biomes = {}
-    Tolerance = 10 # tolerance used when matching Avg rgb values to avg rgb values of predefined biomes
+
 
     def __init__(self):
         BiomeMatcher.Biomes = {}

@@ -47,12 +47,21 @@ def CalculateBiomeForAllBoards(TileGrids):
     for tile_grid in TileGrids:
         biomeMatcher.MatchAllTiles(tile_grid)
 
-folder_path = Path("../TrainingImages")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
+folder_path = Path("../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
 #currently this path leads to all the images, we should probably only do one at a time.
 
 CreateTileGrids(folder_path)
 CalcAverageRGBForAllBoards(TileGrids)
 CalculateBiomeForAllBoards(TileGrids)
+
+
+for tile_grid in TileGrids:
+    for row in tile_grid.grid:
+        for tile in row:
+            cv2.imshow("LMAO", tile.GetImage())
+            tile.PrintBiomeType()
+            cv2.waitKey(0)
+
 
 #figure out the biomes on each board / TileGrid
 

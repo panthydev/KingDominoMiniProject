@@ -42,3 +42,6 @@ class Tile:
     def PrintAverageRGB(self):
         print(self.AverageRGB)
 
+    def GetImage(self):
+        return self.image
+
