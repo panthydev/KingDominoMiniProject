@@ -6,7 +6,7 @@ import cv2
 from cv2 import *
 from pathlib import Path
 import numpy as np
-
+import TemplateMatcher
 from src import Utils
 from src.Biome import BiomeType
 from src.BiomeMatcher import BiomeMatcher
@@ -47,6 +47,10 @@ def CalculateBiomeForAllBoards(TileGrids):
     for tile_grid in TileGrids:
         biomeMatcher.MatchAllTiles(tile_grid)
 
+def DoTemplateMatching(TileGrids):
+    for tile_grid in TileGrids:
+        TemplateMatcher.CheckAllTilesForTemplate(tile_grid)
+
 folder_path = Path("../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
 #currently this path leads to all the images, we should probably only do one at a time.
 
@@ -54,7 +58,12 @@ CreateTileGrids(folder_path)
 CalcAverageRGBForAllBoards(TileGrids)
 CalculateBiomeForAllBoards(TileGrids)
 
+DoTemplateMatching(TileGrids)
 
+
+
+
+#rows are actually collumns, here, should probably rename this everywhere
 for tile_grid in TileGrids:
     for row in tile_grid.grid:
         for tile in row:
