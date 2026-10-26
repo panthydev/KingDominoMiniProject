@@ -8,10 +8,11 @@ from src.Tile import Tile
 templateSource = cv2.imread('Templates/Crown3Final.png', cv2.IMREAD_UNCHANGED) #temp not working
 print(templateSource.shape)
 print("Template dimensions:", templateSource.shape)
-threshold = 0.95
+threshold = 0.9856
 #0.91 without mask
 template = templateSource[:, :, :3]
 maskOriginal = templateSource[:, :, 3]
+maskOriginal = cv2.merge([maskOriginal, maskOriginal, maskOriginal])
 
 def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
     height, width = template.shape[:2]
@@ -24,7 +25,7 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
         tileImage2 = tileImage.copy()
     else:
         tileImage2 = Image.copy()
-    result = cv2.matchTemplate(tileImage2, template, cv2.TM_CCOEFF_NORMED, mask=mask)
+    result = cv2.matchTemplate(tileImage2, template, cv2.TM_CCORR_NORMED, mask=mask)
     os.system("cls")
 
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
@@ -65,29 +66,25 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
         CheckTileForTemplate(Tile, template, mask, tileImage2)
 
 
-def CheckAllTilesForTemplate(TileGrid, template : np.array, mask):
+def CheckAllTilesForTemplate(TileGrid, mask):
     for collumn in TileGrid.grid:
         for tile in collumn:
-            templateCopy = template.copy()
-            maskCopy = mask.copy()
+
+            templateSource2 = tile.GetBiomeSpecificCrown()
+
             for i in range(4):
+                rotated = templateSource2
                 if i == 1:
-                    templateCopy = cv2.rotate(template, cv2.ROTATE_90_CLOCKWISE)
-                    maskCopy = cv2.rotate(mask, cv2.ROTATE_90_CLOCKWISE)
-
-                    CheckTileForTemplate(tile, templateCopy, maskCopy)
+                    rotated = cv2.rotate(templateSource2, cv2.ROTATE_90_CLOCKWISE)
                 elif i == 2:
-                    templateCopy = cv2.rotate(template, cv2.ROTATE_180)
-                    maskCopy = cv2.rotate(mask, cv2.ROTATE_180)
-
-                    CheckTileForTemplate(tile, templateCopy, maskCopy)
+                    rotated = cv2.rotate(templateSource2, cv2.ROTATE_180)
                 elif i == 3:
-                    templateCopy = cv2.rotate(template, cv2.ROTATE_90_COUNTERCLOCKWISE)
-                    maskCopy = cv2.rotate(mask, cv2.ROTATE_90_COUNTERCLOCKWISE)
+                    rotated = cv2.rotate(templateSource2, cv2.ROTATE_90_COUNTERCLOCKWISE)
+                templateCopy = rotated[:, :, :3]
+                maskCopy = rotated[:, :, 3]
 
-                    CheckTileForTemplate(tile, templateCopy, maskCopy)
-                else:
-                    CheckTileForTemplate(tile, templateCopy, maskCopy)
+                CheckTileForTemplate(tile, templateCopy, maskCopy)
+
 
 
 

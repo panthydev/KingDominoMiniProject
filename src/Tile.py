@@ -1,5 +1,5 @@
 ﻿from tkinter import Image
-
+import cv2
 import numpy as np
 
 from src.Biome import BiomeType
@@ -14,6 +14,22 @@ class Tile:
         self.BiomeType = BiomeType.NoType
         self.CrownAmount : int = 0
 
+    def GetBiomeSpecificCrown(self):
+        image = None
+        if self.BiomeType.value == BiomeType.Pasture.value:
+            image = cv2.imread('Templates/PastureCrown.png', cv2.IMREAD_UNCHANGED)
+        elif self.BiomeType.value == BiomeType.Water.value:
+            image = cv2.imread('Templates/WaterCrown.png', cv2.IMREAD_UNCHANGED)
+        elif self.BiomeType.value == BiomeType.WheatFields.value:
+            image = cv2.imread('Templates/WheatCrown.png', cv2.IMREAD_UNCHANGED)
+        elif self.BiomeType.value == BiomeType.Mines.value:
+            image = cv2.imread('Templates/MineCrown.png', cv2.IMREAD_UNCHANGED)
+        elif self.BiomeType.value == BiomeType.Woods.value:
+            image = cv2.imread('Templates/ForestCrown.png', cv2.IMREAD_UNCHANGED)
+        elif self.BiomeType.value == BiomeType.Bog.value:
+            image = cv2.imread('Templates/BogCrown.png', cv2.IMREAD_UNCHANGED)
+        print("Biome image crown template:", image.shape)
+        return image
 
     def SetBiomeType(self, BiomeType : BiomeType):
         self.BiomeType = BiomeType
