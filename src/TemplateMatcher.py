@@ -5,18 +5,19 @@ import numpy as np
 
 from src.Tile import Tile
 
-templateOriginal = cv2.imread('Templates/CrownFinal.png', cv2.IMREAD_UNCHANGED) #temp not working
+templateOriginal = cv2.imread('Templates/Crown3Final.png', cv2.IMREAD_UNCHANGED) #temp not working
 print(templateOriginal.shape)
-threshold = 0.98
-
+print("Template dimensions:", templateOriginal.shape)
+threshold = 0.95
+#0.91 without mask
 templateGray = cv2.cvtColor(templateOriginal[:, :, :3], cv2.COLOR_BGR2GRAY)
 maskOriginal = templateOriginal[:, :, 3]
 
-templateEdge = cv2.Canny(templateGray, 50, 150)
-
 def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
-    height, width = template.shape
+    height, width = template.shape[:2]
+
     tileImage = cv2.cvtColor(Tile.image, cv2.COLOR_BGR2GRAY) # dont know if bgr2 is what its on by default, check it with breakpoints
+
 
     if Image is None:
         tileImage2 = tileImage.copy()
@@ -26,6 +27,7 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
     os.system("cls")
 
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+    if not np.isfinite(max_val): return # we dont like infinity here
 
 
     has_crown = max_val >= threshold #is it within threshold =
@@ -36,7 +38,7 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
 
     displayImage = tileImage2.copy()
 
-
+    print(f"Best score: {max_val:.4f}, Crown found: {has_crown}")
     print("\n Crown found?: " + str(has_crown))
 
     if has_crown:
@@ -52,10 +54,11 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
     cv2.destroyAllWindows()
 
     if(has_crown):
+
         Tile.CrownAmount += 1
         # Remove the detected crown from the image
         x, y = max_loc
-        tileImage2[y:y + height, x:x + width] = 255
+        tileImage2[y:y + height, x:x + width] = 0
 
         # Search the modified image for another crown
         CheckTileForTemplate(Tile, template, mask, tileImage2)

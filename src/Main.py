@@ -49,7 +49,7 @@ def CalculateBiomeForAllBoards(TileGrids):
 
 def DoTemplateMatching(TileGrids):
     for tile_grid in TileGrids:
-        TemplateMatcher.CheckAllTilesForTemplate(tile_grid, TemplateMatcher.template, TemplateMatcher.maskOriginal)
+        TemplateMatcher.CheckAllTilesForTemplate(tile_grid, TemplateMatcher.templateGray, TemplateMatcher.maskOriginal)
 
 folder_path = Path("../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 3.jpg ... n.jpg
 #currently this path leads to all the images, we should probably only do one at a time.
