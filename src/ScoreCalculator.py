@@ -12,10 +12,12 @@ def CalculateScoreForAllBoards(tileGrids : list[TileGrid.TileGrid]):
 
 
 def CalculateScoreForBoard(tileGrid : TileGrid.TileGrid):
-    pass
+    for biome in tileGrid.BiomesPresent:
+        CalculateRegionByBiome(biome)
 
-
-def CalculateRegionByBiome(tileGrid : TileGrid.TileGrid, biomeToCheck : Biome.BiomeType):
+# REMEMBER THERE CAN BE MULTIPLE OF THE SAME BIOME TYPE BUT BE DIFFERENT REGIONS
+#This function should prolly return a list of regions
+def CalculateRegionByBiome(tileGrid : TileGrid.TileGrid, biomeToCheck : Biome.BiomeType) -> list[tuple[Biome.BiomeType, int]]:
     pass
 
 
