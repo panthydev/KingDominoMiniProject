@@ -14,7 +14,7 @@ def CalculateScoreForAllBoards(tileGrids : list[TileGrid.TileGrid]):
 def CalculateScoreForBoard(tileGrid : TileGrid.TileGrid):
     Regions = []
     for biome in tileGrid.BiomesPresent:
-        CurrentRegions = CalculateRegionByBiome(biome)
+        CurrentRegions = CalculateRegionByBiome(tileGrid, biome)
         Regions.append(CurrentRegions)
 
 # REMEMBER THERE CAN BE MULTIPLE OF THE SAME BIOME TYPE BUT BE DIFFERENT REGIONS
@@ -22,10 +22,13 @@ def CalculateScoreForBoard(tileGrid : TileGrid.TileGrid):
 def CalculateRegionByBiome(tileGrid : TileGrid.TileGrid, biomeToCheck : Biome.BiomeType) -> list[tuple[Biome.BiomeType, int]]:
     Regions = [[]] # this one has tiles, WE DONT return this one
     currentRegion = []
-    for collumn in tileGrid:
+    for collumn in tileGrid.grid:
         for tile in collumn:
-            if tile.BiomeType == biomeToCheck:
-                currentRegion.append(tile)
+            if tile not in currentRegion:
+                tilepos = (tile.x, tile.y)
+                currentRegion = CheckNeighbourTilesForSameBiome(tileGrid, tilepos, currentRegion, biomeToCheck)
+                Regions.append(currentRegion)
+
 
 
 
@@ -39,7 +42,11 @@ def CheckNeighbourTilesForSameBiome(tileGrid : TileGrid.TileGrid,
 
     positions = CalculateNeighbourPositions(tile)
 
-    CorrectTiles = savedNeighbours
+
+    if savedNeighbours == [] or savedNeighbours == None:
+        CorrectTiles = []
+    else:
+        CorrectTiles = savedNeighbours
 
     if tile.BiomeType == biomeToCheck:
         if tile not in CurrentRegion:
@@ -61,10 +68,11 @@ def CheckNeighbourTilesForSameBiome(tileGrid : TileGrid.TileGrid,
         for tile in CorrectTiles:
             if tile in CurrentRegion:
                 CorrectTiles.remove(tile)
-            CheckNeighbourTilesForSameBiome(tileGrid, tile.getPosition(), CurrentRegion, biomeToCheck, CorrectTiles)
+            if CorrectTiles is not []:
+                CheckNeighbourTilesForSameBiome(tileGrid, tile.getPosition(), CurrentRegion, biomeToCheck, CorrectTiles)
 
 
-    CorrectTiles = [] # reset correct tiles list #although this should already be the case, else we wouldnt be here lmao
+
     if len(CorrectTiles) == 0: return [] # FIX THIS LATER
     #When this returns, it signifies the end of a region / territory.
 

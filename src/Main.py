@@ -10,6 +10,7 @@ import TemplateMatcher
 from src import Utils
 from src.Biome import BiomeType
 from src.BiomeMatcher import BiomeMatcher
+from src.ScoreCalculator import CalculateScoreForAllBoards
 from src.TileGrid import TileGrid
 from src.Tile import Tile
 
@@ -73,6 +74,7 @@ CalcAverageRGBForAllBoards(TileGrids)
 CalculateBiomeForAllBoards(TileGrids)
 #DoTemplateMatching(TileGrids)
 DoBiomesPresentCheck(TileGrids)
+CalculateScoreForAllBoards(TileGrids)
 
 
 
@@ -88,6 +90,7 @@ for tile_grid in TileGrids:
         for tile in row:
             cv2.imshow("LMAO", tile.GetImage())
             tile.PrintBiomeType()
+            tile.PrintPosition()
             cv2.waitKey(0)
 
 
