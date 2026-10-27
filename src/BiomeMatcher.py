@@ -6,13 +6,34 @@ from src.TileGrid import TileGrid
 class BiomeMatcher:
 
     Biomes = {}
-    Tolerance = 10 # tolerance used when matching Avg rgb values to avg rgb values of predefined biomes
+
 
     def __init__(self):
         BiomeMatcher.Biomes = {}
         for biomeType in BiomeType: # adds a biome obj to biome dict, for each biome type
             BiomeObj = Biome(biomeType)
-            BiomeObj.set_AverageRGB(100) # testing value
+
+            #worst most harcoded code known to man, disgusting
+            avgRGB = (0, 0, 0)
+            if(biomeType == BiomeType.WheatFields):
+                avgRGB = (165, 141, 12)
+            elif(biomeType == BiomeType.Woods):
+                avgRGB = (42, 52, 24)
+            elif(biomeType == BiomeType.Water):
+                avgRGB = (23, 74, 131)
+            elif(biomeType == BiomeType.Pasture):
+                avgRGB = (89, 119, 25)
+            elif(biomeType == BiomeType.Bog):
+                avgRGB = (99, 86, 52)
+            elif(biomeType == BiomeType.Mines):
+                avgRGB = (62, 53, 29)
+            elif(biomeType == BiomeType.Table):
+                avgRGB = (136, 106, 39)
+
+            BiomeObj.set_AverageRGB(avgRGB)
+
+
+
             BiomeMatcher.Biomes[biomeType] = BiomeObj
 
 
@@ -44,7 +65,7 @@ class BiomeMatcher:
         results = {}
 
         for biome in BiomeMatcher.Biomes.values():
-            if biome.BiomeType == BiomeType.NoType: return BiomeType.NoType
+            if biome.BiomeType == BiomeType.NoType: continue
 
             distance = 0
 

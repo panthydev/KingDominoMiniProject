@@ -7,6 +7,7 @@ class BiomeType(enum.Enum):
     Bog = 4
     Mines = 5
     NoType = 6
+    Table = 7
 
     def __str__(self):
         return self.name
