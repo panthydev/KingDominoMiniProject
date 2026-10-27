@@ -19,73 +19,43 @@ def CalculateScoreForBoard(tileGrid : TileGrid.TileGrid):
 
 # REMEMBER THERE CAN BE MULTIPLE OF THE SAME BIOME TYPE BUT BE DIFFERENT REGIONS
 #This function should prolly return a list of regions
-def CalculateRegionByBiome(tileGrid : TileGrid.TileGrid, biomeToCheck : Biome.BiomeType) -> list[tuple[Biome.BiomeType, int]]:
-    Regions = [[]] # this one has tiles, WE DONT return this one
-    currentRegion = []
-    for collumn in tileGrid.grid:
-        for tile in collumn:
-            if tile not in currentRegion:
-                tilepos = (tile.x, tile.y)
-                currentRegion = CheckNeighbourTilesForSameBiome(tileGrid, tilepos, currentRegion, biomeToCheck)
-                Regions.append(currentRegion)
+def CalculateRegionByBiome(
+    tileGrid: TileGrid.TileGrid,
+    biomeToCheck: Biome.BiomeType
+) -> list[list[Tile.Tile]]:
 
+    Regions = []
+    Visited = set()
 
+    for column in tileGrid.grid:
+        for tile in column:
+            pos = tile.getPosition()
 
+            if pos in Visited or tile.BiomeType != biomeToCheck:
+                continue
 
-def CheckNeighbourTilesForSameBiome(tileGrid : TileGrid.TileGrid,
-                                    tilePos : tuple[int, int],
-                                    CurrentRegion : list[Tile.Tile],
-                                    biomeToCheck : Biome.BiomeType,
-                                    savedNeighbours = None) -> list[Tile.Tile]:
+            CurrentRegion = []
+            ToVisit = [tile]
 
-    tile = tileGrid.get_tile_by_Position(tilePos)
+            while ToVisit:
+                current = ToVisit.pop()
+                currentPos = current.getPosition()
 
-    positions = CalculateNeighbourPositions(tile)
+                if currentPos in Visited:
+                    continue
 
+                Visited.add(currentPos)
+                CurrentRegion.append(current)
 
-    if savedNeighbours == [] or savedNeighbours == None:
-        CorrectTiles = []
-    else:
-        CorrectTiles = savedNeighbours
+                for neighbourPos in CalculateNeighbourPositions(current):
+                    neighbour = tileGrid.get_tile_by_Position(neighbourPos)
 
-    if tile.BiomeType == biomeToCheck:
-        if tile not in CurrentRegion:
-            CorrectTiles.append(tile)
+                    if (neighbourPos not in Visited and neighbour.BiomeType == biomeToCheck):
+                        ToVisit.append(neighbour)
 
-    for pos in positions:
-        temp_tile = tileGrid.get_tile_by_Position(pos)
-        if temp_tile.BiomeType == biomeToCheck:
-            if temp_tile not in CurrentRegion:
-                CorrectTiles.append(temp_tile)
+            Regions.append(CurrentRegion)
 
-
-    if CorrectTiles is not []:
-        for tile in CorrectTiles:
-            if tile not in CurrentRegion:
-                CurrentRegion.append(tile)
-
-
-        for tile in CorrectTiles:
-            if tile in CurrentRegion:
-                CorrectTiles.remove(tile)
-            if CorrectTiles is not []:
-                CheckNeighbourTilesForSameBiome(tileGrid, tile.getPosition(), CurrentRegion, biomeToCheck, CorrectTiles)
-
-
-
-    if len(CorrectTiles) == 0: return [] # FIX THIS LATER
-    #When this returns, it signifies the end of a region / territory.
-
-
-
-
-
-    #check and save all neighbour tiles that are the right biome
-    #check if tile is already in region list
-    #all tiles that are not already in the region list are added to the region list and to a temp list
-    # check all neighbours of the temp list, and their neighbours until all tiles are in region list or not the same biome ()
-
-
+    return Regions
 
 def CalculateNeighbourPositions(tile : Tile.Tile) -> list[tuple[int, int]]:
 
