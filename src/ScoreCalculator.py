@@ -16,6 +16,7 @@ def CalculateScoreForBoard(tileGrid : TileGrid.TileGrid):
     for biome in tileGrid.BiomesPresent:
         CurrentRegions = CalculateRegionByBiome(tileGrid, biome)
         Regions.append(CurrentRegions)
+    DoScoreCalculation(Regions)
 
 # REMEMBER THERE CAN BE MULTIPLE OF THE SAME BIOME TYPE BUT BE DIFFERENT REGIONS
 #This function should prolly return a list of regions
@@ -73,6 +74,23 @@ def CalculateNeighbourPositions(tile : Tile.Tile) -> list[tuple[int, int]]:
             Positions.remove(pos) # not sure if im allowed to modify a list while iterating through it
 
     return Positions
+
+
+def DoScoreCalculation(allRegions : list[[[]]]) -> list[[Tile]]:
+    finalScore = 0
+    for biomeRegions in allRegions:
+        for region in biomeRegions:
+            totalCrowns = 0
+            for tile in region:
+                if tile.GetCrownAmount() <= 0:
+                    continue
+                else:
+                    totalCrowns += tile.GetCrownAmount()
+            if totalCrowns > 0:
+                finalScore += totalCrowns * len(region)
+    print("Final Score: " + str(finalScore))
+
+
 
 
 

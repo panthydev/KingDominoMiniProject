@@ -72,7 +72,7 @@ folder_path = Path("../IMAGES")  #images in this folder are named 1.jpg, 2.jpg, 
 CreateTileGrids(folder_path)
 CalcAverageRGBForAllBoards(TileGrids)
 CalculateBiomeForAllBoards(TileGrids)
-#DoTemplateMatching(TileGrids)
+DoTemplateMatching(TileGrids)
 DoBiomesPresentCheck(TileGrids)
 CalculateScoreForAllBoards(TileGrids)
 

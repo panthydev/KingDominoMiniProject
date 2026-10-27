@@ -63,3 +63,5 @@ class Tile:
 
     def GetBiomeType(self):
         return self.BiomeType
+    def GetCrownAmount(self):
+        return self.CrownAmount
