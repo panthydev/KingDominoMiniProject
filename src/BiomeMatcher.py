@@ -29,6 +29,8 @@ class BiomeMatcher:
                 avgRGB = (62, 53, 29)
             elif(biomeType == BiomeType.NoType):
                 avgRGB = (0, 0, 0)
+            elif(biomeType == BiomeType.Table):
+                avgRGB = (136, 106, 39)
 
             BiomeObj.set_AverageRGB(avgRGB)
 
