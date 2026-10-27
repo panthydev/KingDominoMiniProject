@@ -58,7 +58,7 @@ CreateTileGrids(folder_path)
 CalcAverageRGBForAllBoards(TileGrids)
 CalculateBiomeForAllBoards(TileGrids)
 
-#DoTemplateMatching(TileGrids)
+DoTemplateMatching(TileGrids)
 
 
 
