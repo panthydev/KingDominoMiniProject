@@ -47,7 +47,8 @@ class Tile:
 
     def PrintPosition(self):
         print(self.x, self.y)
-
+    def getPosition(self):
+        return tuple([self.x, self.y])
     def PrintBiomeType(self):
         print(str(self.BiomeType))
 
@@ -60,3 +61,7 @@ class Tile:
     def GetImage(self):
         return self.image
 
+    def GetBiomeType(self):
+        return self.BiomeType
+    def GetCrownAmount(self):
+        return self.CrownAmount
