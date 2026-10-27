@@ -47,7 +47,8 @@ class Tile:
 
     def PrintPosition(self):
         print(self.x, self.y)
-
+    def getPosition(self):
+        return tuple([self.x, self.y])
     def PrintBiomeType(self):
         print(str(self.BiomeType))
 

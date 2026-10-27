@@ -3,7 +3,7 @@ import numpy as np
 import TileGrid
 import Utils
 import Biome
-
+from src.Tile import Tile
 
 
 def CalculateScoreForAllBoards(tileGrids : list[TileGrid.TileGrid]):
@@ -30,13 +30,20 @@ def CalculateRegionByBiome(tileGrid : TileGrid.TileGrid, biomeToCheck : Biome.Bi
 
 
 def CheckNeighbourTilesForSameBiome(tileGrid : TileGrid.TileGrid,
-                                    tile : Tile.Tile,
+                                    tilePos : tuple[int, int],
                                     CurrentRegion : list[Tile.Tile],
-                                    biomeToCheck : Biome.BiomeType) -> list[Tile.Tile]:
+                                    biomeToCheck : Biome.BiomeType,
+                                    savedNeighbours = None) -> list[Tile.Tile]:
+
+    tile = tileGrid.get_tile_by_Position(tilePos)
 
     positions = CalculateNeighbourPositions(tile)
 
-    CorrectTiles = []
+    CorrectTiles = savedNeighbours
+
+    if tile.BiomeType == biomeToCheck:
+        if tile not in CurrentRegion:
+            CorrectTiles.append(tile)
 
     for pos in positions:
         temp_tile = tileGrid.get_tile_by_Position(pos)
@@ -46,12 +53,20 @@ def CheckNeighbourTilesForSameBiome(tileGrid : TileGrid.TileGrid,
 
 
     if CorrectTiles is not []:
-        CurrentRegion.extend(CorrectTiles)
-        CheckNeighbourTilesForSameBiome(tileGrid, tile, CurrentRegion, biomeToCheck)
+        for tile in CorrectTiles:
+            if tile not in CurrentRegion:
+                CurrentRegion.append(tile)
 
 
-    CorrectTiles = [] # reset correct tiles list
+        for tile in CorrectTiles:
+            if tile in CurrentRegion:
+                CorrectTiles.remove(tile)
+            CheckNeighbourTilesForSameBiome(tileGrid, tile.getPosition(), CurrentRegion, biomeToCheck, CorrectTiles)
+
+
+    CorrectTiles = [] # reset correct tiles list #although this should already be the case, else we wouldnt be here lmao
     if len(CorrectTiles) == 0: return [] # FIX THIS LATER
+    #When this returns, it signifies the end of a region / territory.
 
 
 
