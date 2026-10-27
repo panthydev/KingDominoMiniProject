@@ -1,4 +1,5 @@
-﻿from src.Tile import Tile
+﻿from src.Biome import BiomeType
+from src.Tile import Tile
 
 
 class TileGrid:
@@ -7,6 +8,7 @@ class TileGrid:
     HEIGHT = 5
     def __init__(self):
         self.grid: list[list[Tile]] = [] # init the 2d list
+        self.BiomesPresent: dict[BiomeType, bool] = {}
 
         for y in range(self.HEIGHT): # make all the rows
             row = []
@@ -22,3 +24,5 @@ class TileGrid:
     def set_tile_by_Position(self, tile: Tile, x: int, y: int):
         self.grid[x][y] = tile
 
+    def SetBiomesPresent(self, BiomesPresentDict):
+        self.BiomesPresent = BiomesPresentDict

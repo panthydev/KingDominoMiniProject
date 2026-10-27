@@ -60,3 +60,5 @@ class Tile:
     def GetImage(self):
         return self.image
 
+    def GetBiomeType(self):
+        return self.BiomeType
