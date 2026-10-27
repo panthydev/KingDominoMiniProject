@@ -23,6 +23,8 @@ class TileGrid:
 
     def set_tile_by_Position(self, tile: Tile, x: int, y: int):
         self.grid[x][y] = tile
+    def get_tile_by_Position(self, pos : tuple[int, int]) -> Tile:
+        return self.grid[pos[0]][pos[1]]
 
     def SetBiomesPresent(self, BiomesPresentDict):
         self.BiomesPresent = BiomesPresentDict
