@@ -71,6 +71,10 @@ def CheckAllTilesForTemplate(TileGrid, mask):
         for tile in collumn:
 
             templateSource2 = tile.GetBiomeSpecificCrown()
+            if templateSource2 is None:
+                print("\n Skipping a tile, its a table or castle biome")
+                continue #this happens if there isn't a biome specific crown IE for table biome or castle biome
+
 
             for i in range(4):
                 rotated = templateSource2

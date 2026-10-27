@@ -28,7 +28,6 @@ class Tile:
             image = cv2.imread('Templates/ForestCrown.png', cv2.IMREAD_UNCHANGED)
         elif self.BiomeType.value == BiomeType.Bog.value:
             image = cv2.imread('Templates/BogCrown.png', cv2.IMREAD_UNCHANGED)
-        print("Biome image crown template:", image.shape)
         return image
 
     def SetBiomeType(self, BiomeType : BiomeType):

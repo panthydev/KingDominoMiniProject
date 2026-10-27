@@ -27,8 +27,6 @@ class BiomeMatcher:
                 avgRGB = (99, 86, 52)
             elif(biomeType == BiomeType.Mines):
                 avgRGB = (62, 53, 29)
-            elif(biomeType == BiomeType.NoType):
-                avgRGB = (0, 0, 0)
             elif(biomeType == BiomeType.Table):
                 avgRGB = (136, 106, 39)
 
