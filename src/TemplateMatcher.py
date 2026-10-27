@@ -52,8 +52,8 @@ def CheckTileForTemplate(Tile : Tile, template, mask,  Image = None ):
     cv2.imshow("Image", displayImage)
     cv2.imshow("Template", template)
     cv2.imshow("Mask", mask)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+#    cv2.waitKey(0)
+#   cv2.destroyAllWindows()
 
     if(has_crown):
 
