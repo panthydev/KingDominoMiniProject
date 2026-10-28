@@ -73,7 +73,6 @@ class BiomeMatcher:
 
             distance = distance**0.5
             results[distance] = biome
-
         ShortestDistanceKey = min(results)
 
         return results[ShortestDistanceKey].BiomeType
